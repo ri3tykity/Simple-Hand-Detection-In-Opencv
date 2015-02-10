@@ -1,0 +1,24 @@
+//Headers
+#include<opencv\cv.h>
+#include <opencv\ml.h>
+#include <opencv\highgui.h>
+
+using namespace cv;
+using namespace std;
+
+//Load an iplimage and show it
+	IplImage* img = cvLoadImage("c:/i.jpg");
+	cvNamedWindow("ImgDisp", CV_WINDOW_AUTOSIZE);
+	cvShowImage("ImgDisp", img);
+	cvWaitKey(0);
+	cvReleaseImage(&img);
+	cvDestroyWindow("ImgDisp");
+
+//Load an mat img n show
+	Mat img = imread("c:/i.jpg");
+	cv::Mat img(333, 200, CV_32SC3); // black img with 333x200
+	namedWindow("My Window", 1);
+	imshow("My Window", img);
+
+
+

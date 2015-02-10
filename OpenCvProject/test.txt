@@ -1,0 +1,80 @@
+#include<opencv\cv.h>
+#include<opencv\highgui.h>
+
+int main(){
+	IplImage* img = cvLoadImage("c:/i.jpg");
+	cvNamedWindow("ImgDisp", CV_WINDOW_AUTOSIZE);
+	cvShowImage("ImgDisp", img);
+	cvWaitKey(0);
+	cvReleaseImage(&img);
+	cvDestroyWindow("ImgDisp");
+	return 0;
+}
+
+#include "opencv2/highgui/highgui.hpp"
+#include <iostream>
+
+using namespace std;
+using namespace cv;
+
+Mat img;
+int x=0, y=0;
+
+void CallBackFunc(int event, int a, int b, int flags, void* userdata)
+{
+	if (event == EVENT_LBUTTONDOWN)
+	{
+		Point p1, p2;
+		p1.x = x;
+		p1.y = y;
+		p2.x = a;
+		p2.y = b;
+		cout << "Left button of the mouse is clicked - position (" << a << ", " << b << ")" << endl;
+		if (x != 0 && y != 0)
+		{
+			line(img, p1, p2, Scalar(0,0,255), 8);
+			imshow("My Window", img);
+		}
+		x = a;
+		y = b;
+	}
+	else if (event == EVENT_RBUTTONDOWN)
+	{
+		cout << "Right button of the mouse is clicked - position (" << x << ", " << y << ")" << endl;
+	}
+	else if (event == EVENT_MBUTTONDOWN)
+	{
+		cout << "Middle button of the mouse is clicked - position (" << x << ", " << y << ")" << endl;
+	}
+	else if (event == EVENT_MOUSEMOVE)
+	{
+		cout << "Mouse move over the window - position (" << x << ", " << y << ")" << endl;
+	}
+}
+
+int main(int argc, char** argv)
+{
+	// Read image from file 
+	img = imread("c:/i.jpg");
+
+	//if fail to read the image
+	if (img.empty())
+	{
+		cout << "Error loading the image" << endl;
+		return -1;
+	}
+
+	//Create a window
+	namedWindow("My Window", 1);
+
+	//set the callback function for any mouse event
+	setMouseCallback("My Window", CallBackFunc, NULL);
+
+	//show the image
+	imshow("My Window", img);
+
+	// Wait until user press some key
+	waitKey(0);
+
+	return 0;
+}
